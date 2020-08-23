@@ -1,15 +1,49 @@
+var tasks = [];
 var timeNow = moment().format("dddd[,] MMM Do");
-// thursday, september 5th
 
 $("#currentDay").text(timeNow);
 
-// get value of textarea on click
-$(".task").on("click", function () {
-    var text = $(this).text().trim();
-    console.log(text);
+$(".save").on("click", function () {
+    // you have to redefine the global variable in jquery
+
+    if (localStorage.length === 0) {
+        tasks = [];
+    } else {
+        tasks = JSON.parse(localStorage.getItem("tasks"));
+    }
+
+    var hour = $(this).closest(".row").attr('id');
+    var task = $(this).closest(".row").find(".task").val();
+    $(this).closest(".row").find(".task").text(task);
+
+    if (tasks.length === 0) {
+        tasks.push({ hour: hour, task: task });
+    } else {
+        for (var i = 0; i < tasks.length; i++) {
+            if (tasks[i].hour === hour) {
+                tasks[i].task = task;
+            } else {
+                tasks.push({ hour: hour, task: task });
+            }
+        }
+    }
+    saveTasks();
 });
 
-$(".save").on("click", function () {
-    var text = $(this).closest(".task");
-    console.log(text);
-});
+var saveTasks = function () {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
+var loadTasks = function () {
+    if (localStorage.length === 0) {
+        tasks = [];
+    } else {
+        tasks = JSON.parse(localStorage.getItem("tasks"));
+    }
+
+    for (i = 0; i < tasks.length; i++) {
+        $("#" + tasks[i].hour).find(".task").text(tasks[i].task);
+    }
+};
+
+loadTasks();
