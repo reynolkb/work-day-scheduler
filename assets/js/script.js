@@ -46,4 +46,22 @@ var loadTasks = function () {
     }
 };
 
+var auditTask = function () {
+    var timeNow = moment().format("HH");
+
+    $('.hour').each(function () {
+        var currentID = $(this).attr('id');
+        var currentTask = $(this).find(".task");
+
+        if (timeNow === currentID) {
+            currentTask.addClass("present");
+        } else if (currentID < timeNow) {
+            currentTask.addClass("past");
+        } else {
+            currentTask.addClass("future");
+        }
+    });
+}
+
 loadTasks();
+auditTask();
