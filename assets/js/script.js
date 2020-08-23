@@ -1,53 +1,47 @@
+// Find current time and set it
 var timeNow = moment().format("dddd[,] MMM Do");
-
 $("#currentDay").text(timeNow);
 
+// On save button save data to local storage
 $(".save").on("click", function () {
-    // you have to redefine the global variable in jquery
-    // var tasks = [];
+    // variable to hold all tasks
     var tasks;
 
+    // check if local storage is blank, if not pull it.
     if (localStorage.length === 0) {
         tasks = [];
     } else {
         tasks = JSON.parse(localStorage.getItem("tasks"));
     }
 
+    // find the hour and task you clicked on
     var hour = $(this).closest(".row").attr('id');
     var task = $(this).closest(".row").find(".task").val();
     $(this).closest(".row").find(".task").text(task);
 
+    // search array obj and if you can find the hour id there return true
     var foundHour = tasks.find(function (obj) {
         if (obj.hour === hour) {
             return true;
         }
     });
 
+    // if the hour is in the array only update the task, if not push the hour and task
     if (foundHour) {
         foundHour.task = task;
     } else {
         tasks.push({ hour: hour, task: task });
     }
 
-    /*     if (tasks.length === 0) {
-            tasks.push({ hour: hour, task: task });
-        } else {
-            for (var i = 0; i < tasks.length; i++) {
-                if (tasks[i].hour === hour) {
-                    tasks[i].task = task;
-                } else {
-                    tasks.push({ hour: hour, task: task });
-                }
-            }
-        } */
-
     saveTasks(tasks);
 });
 
+// save off to local storage
 var saveTasks = function (tasks) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+// load the tasks from local storage
 var loadTasks = function () {
     if (localStorage.length === 0) {
         tasks = [];
@@ -60,6 +54,7 @@ var loadTasks = function () {
     }
 };
 
+// assign coloring to hours based on current time
 var auditTask = function () {
     var timeNow = moment().format("HH");
 
