@@ -1,10 +1,11 @@
-var tasks = [];
 var timeNow = moment().format("dddd[,] MMM Do");
 
 $("#currentDay").text(timeNow);
 
 $(".save").on("click", function () {
     // you have to redefine the global variable in jquery
+    // var tasks = [];
+    var tasks;
 
     if (localStorage.length === 0) {
         tasks = [];
@@ -16,21 +17,34 @@ $(".save").on("click", function () {
     var task = $(this).closest(".row").find(".task").val();
     $(this).closest(".row").find(".task").text(task);
 
-    if (tasks.length === 0) {
-        tasks.push({ hour: hour, task: task });
-    } else {
-        for (var i = 0; i < tasks.length; i++) {
-            if (tasks[i].hour === hour) {
-                tasks[i].task = task;
-            } else {
-                tasks.push({ hour: hour, task: task });
-            }
+    var foundHour = tasks.find(function (obj) {
+        if (obj.hour === hour) {
+            return true;
         }
+    });
+
+    if (foundHour) {
+        foundHour.task = task;
+    } else {
+        tasks.push({ hour: hour, task: task });
     }
-    saveTasks();
+
+    /*     if (tasks.length === 0) {
+            tasks.push({ hour: hour, task: task });
+        } else {
+            for (var i = 0; i < tasks.length; i++) {
+                if (tasks[i].hour === hour) {
+                    tasks[i].task = task;
+                } else {
+                    tasks.push({ hour: hour, task: task });
+                }
+            }
+        } */
+
+    saveTasks(tasks);
 });
 
-var saveTasks = function () {
+var saveTasks = function (tasks) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
