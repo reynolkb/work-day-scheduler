@@ -72,5 +72,22 @@ var auditTask = function () {
     });
 }
 
+// media query for mobile
+if ($(window).width() < 426) {
+    $('.hour').each(function () {
+        var left = $(this).find(".hour-interval");
+        left.removeClass("col-1");
+        left.addClass("col-2");
+
+        var middle = $(this).find(".task");
+        middle.removeClass("col-10");
+        middle.addClass("col-8");
+
+        var right = $(this).find(".btn");
+        right.removeClass("col-1");
+        right.addClass("col-2");
+    });
+}
+
 loadTasks();
 auditTask();

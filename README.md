@@ -6,7 +6,7 @@ This is a work day scheduler.
 
 White hours are in the past, red is current, and green is in the future.
 
-You're able to save off your tasks to local storage by pressing the blue save button on the right of each hour.
+You're able to save off your tasks to local storage by pressing the blue save button on the right of each hour. For mobile devices at 425 width or lower you need to refresh the page for the jQuery to load.
 
 Deployed Application
 https://reynolkb.github.io/work-day-scheduler/
