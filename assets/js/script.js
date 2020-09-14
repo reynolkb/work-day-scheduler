@@ -8,7 +8,7 @@ $(".save").on("click", function () {
     var tasks;
 
     // check if local storage is blank, if not pull it.
-    if (localStorage.length === 0) {
+    if (!localStorage.getItem("tasks")) {
         tasks = [];
     } else {
         tasks = JSON.parse(localStorage.getItem("tasks"));
